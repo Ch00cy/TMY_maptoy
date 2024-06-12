@@ -1,0 +1,31 @@
+# .gitignore 파일
+# 여기에 등록되는 폴더 또는 파일은 git으로 관리되지 않음.
+
+# 디렉토리와 파일 무시 설정
+TMYtest3.9/
+node_modules/
+<<<<<<< HEAD
+app/node_modules/
+ignore/
+<<<<<<< HEAD
+app/static/data/maptile/
+
+# 특정 파일 무시 설정
+south-korea-latest.osm.pbf
+
+# 일반적인 Git 무시 파일 설정
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.log
+*.osm.pdf
+
+# Git 관련 파일 무시 설정
+.git/
+=======
+=======
+app/node_modules/
+>>>>>>> 4cbb97443c42029ba08bcb59fe180151920edca3
+>>>>>>> bc60ece8d7941a55a0edfd74ab91bfd4c520d674

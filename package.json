@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "leaflet-tilelayer-mbtiles-ts": "^1.6.0"
+  }
+}
