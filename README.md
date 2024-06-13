@@ -41,3 +41,9 @@ docker volume rm osm-data
 
 docker volume create osm-data
 docker run -v $(pwd)/app/static/data/maptile/south-korea-latest.osm.pbf:/data/region.osm.pbf -v osm-data:/data/database/ overv/openstreetmap-tile-server import
+
+컴 기준 
+우분투: docker start friendly_rosalind
+맵타일: docker start zen_euler
+나머지: docker-compose up
+docker-compose down --rmi all -v

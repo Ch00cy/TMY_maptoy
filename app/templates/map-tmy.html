@@ -2,84 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- 뷰포트 메타 태그는 웹페이지의 크기를 디바이스에 맞게 설정하여 반응형 웹 디자인을 가능하게 합니다 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- HTML 문서의 제목 -->
-    <title>Leaflet Map</title>
-    <!-- 지도 스타일링을 위한 Leaflet CSS 파일 연결 -->
+    <title>TMY data Map</title>
     <link rel="stylesheet" href="/static/css/leaflet.css" />
-    <style>
-        /* flexbox 레이아웃을 사용하도록 body 스타일링 */
-        body {
-            display: flex;
-        }
-        /* 선택된 마커 섹션 스타일링 */
-        #selectedMarkers {
-            height: 500px; /* 높이 설정 */
-            margin-top: 20px; /* 위쪽 여백 설정 */
-            margin-left: 20px; /* 왼쪽 여백 설정 */
-            margin-right: 20px; /* 오른쪽 여백 설정 */
-            margin-bottom: 0px;
-            padding: 10px; /* 내부 여백 설정 */
-            border: 1px solid #ccc; /* 회색 테두리를 설정 */
-            overflow-y: auto; /* 세로 스크롤을 가능하게 설정 */
-            position: relative; /* 상대 위치 설정 */
-        }
-         /* 다운로드 버튼 스타일 */
-         #downloadButton1 {
-            margin: 10px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        /* 다운로드 버튼 스타일 */
-        #downloadButton2 {
-            margin: 10px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        /* 다운로드 버튼 스타일 */
-        #downloadButton3 {
-            margin: 10px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        /* 지도 컨테이너 스타일링 */
-        #map {
-            width: 35%; /* 넓이 설정 */
-            height: 670px; /* 높이 설정 */
-            margin-top: 20px; /* 위쪽 여백 설정 */
-            display: inline-block; /* 인라인 블록 요소로 설정 */
-            margin-left: 20px; /* 왼쪽 여백 설정 */
-            margin-right: 20px; /* 오른쪽 여백 설정 */
-        }
-        /* 체크리스트 섹션 스타일링 */
-        #checklist {
-            width: 30%; /* 넓이 설정 */
-            height: 670px; /* 높이 설정 */
-            margin-left: 20px; /* 왼쪽 여백 설정 */
-            margin-right: 20px; /* 오른쪽 여백 설정 */
-            overflow-y: scroll; /* 세로 스크롤을 가능하게 설정 */
-            display: inline-block; /* 인라인 블록 요소로 설정 */
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/map-tmy_styles.css" />
 </head>
 <body>
-    <!-- 선택된 마커를 표시하는 div 요소-->
     <div style="position: relative;height:670px;width: 30%;">
         <div id="selectedMarkers">
-            선택된 마커: <span id="markerNames"></span>
+            <span id="markerNames"></span>
         </div>
         <div style="position:absolute;bottom: 10px;">
             <button id="downloadButton1">다운로드allfiles</button>
@@ -88,194 +19,38 @@
         </div>
     </div>
     
-    
-    <!-- 지도 표시할 div 요소-->
     <div id="map"></div>
-    <!-- 마커 체크리스트 표시할 div 요소 -->
     <div id="checklist">
         <h2>체크리스트</h2>
-        <ul id="markerChecklist"></ul>
+        <ul id="markerChecklist">
+            <li>
+                <span class="toggle-button" onclick="toggleChildList('2021_100_list')">▶</span>
+                <input type="checkbox" id="2021_100" class="parent-checkbox">
+                <label for="2021_100">2021_100</label>
+                <ul id="2021_100_list" class="child-list"></ul>
+            </li>
+            <li>
+                <span class="toggle-button" onclick="toggleChildList('2022_200_list')">▶</span>
+                <input type="checkbox" id="2022_200" class="parent-checkbox">
+                <label for="2022_200">2022_200</label>
+                <ul id="2022_200_list" class="child-list"></ul>
+            </li>
+            <li>
+                <span class="toggle-button" onclick="toggleChildList('2023_700_list')">▶</span>
+                <input type="checkbox" id="2023_700" class="parent-checkbox">
+                <label for="2023_700">2023_700</label>
+                <ul id="2023_700_list" class="child-list"></ul>
+            </li>
+        </ul>
     </div>
-    <!-- 라이브러리 스크립트 파일들 -->
-    <!-- Leaflet 라이브러리 : 지도를 처리하는 기능을 제공 (오픈 소스 자바스크립트 라이브러리) [전역객체 : L] -->
     <script src="/static/js/leaflet.js"></script>
-    <!-- PapaParse 라이브러리 : CSV 파일을 파싱하는 기능을 제공 [전역객체 : Papa] -->
     <script src="/static/js/papaparse.min.js"></script>
-    <!-- JSZip 라이브러리 : ZIP 파일 생성,조작 [전역객체 : JSZip] -->
     <script src="/static/js/jszip.min.js"></script>
-    <!-- JSZip-utils 라이브러리 : JSZip 라이브러리와 함께 사용, 파일 로드 등 utility 기능 제공 [전역객체 : X] -->
     <script src="/static/js/jszip-utils.min.js"></script>
-    <!-- FileSaver 라이브러리 : 브라우저에서 파일 다운로드 [전역객체 : saveAs] -->
     <script src="/static/js/FileSaver.min.js"></script>
-
-    <script>
-        // 지도 초기화 및 특정 위치와 줌 레벨 설정
-        var map = L.map('map').setView([36.1960, 127.4000], 7);
-
-        // 지도에 타일 레이어 추가 (오프라인 사용을 위해 로컬 저장소에서 불러옴)
-        // L.tileLayer('/static/data/mapTiles/{z}/{x}/{y}.png', {
-        // L.tileLayer('https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=E9P5PFzE3sjq79j4Sk8O', {
-        L.tileLayer('http://localhost:8080/tile/{z}/{x}/{y}.png', {
-            minZoom: 7, // 최소 줌 레벨
-            maxZoom: 11, // 최대 줌 레벨
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-        }).addTo(map);
-
-        // 지도 이동 범위를 제한하는 최대 경계 설정
-        var maxBounds = L.latLngBounds(
-            L.latLng(33.0, 125.0),  // 남서쪽 경계
-            L.latLng(38.5, 132.0)   // 북동쪽 경계
-        );
-        map.setMaxBounds(maxBounds);
-
-        var markers = {};   // 이름으로 마커를 저장할 객체
-        var selectedMarkers = [];   // 선택된 마커의 이름을 저장할 배열
-
-        // CSV 파일에서 마커 데이터를 가져옴
-        // fetch() : URL로 HTTP 요청 (GET,POST,PUT,DELETE..) -> 데이터 가져옴, 서버 데이터 보냄 / 네트워크 요청 -> 응답 처리:Promise 반환(비동기)
-        fetch('../static/data/markers/markers.csv') app\static\data\markers\markers.csv  data_TMY\2021_100\1_TMY_78\1_site_info.csv
-            .then(response => {
-                if (!response.ok) { // 응답이 정상적이지 않으면 에러를 발생
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.text(); // response 될 때 -> 응답을 텍스트로 변환
-            })
-            .then(data => {
-                // PapaParse를 사용해 CSV 데이터 파싱
-                Papa.parse(data, {
-                    header: true,   // 첫 번째 행을 헤더로 처리
-                    complete: function(results) {
-                        var markersData = results.data; // 파싱된 데이터
-                        var checklist = document.getElementById('markerChecklist'); // 체크리스트 요소
-                        // document : DOM(Document Objct Model)을 통해 HTML 문서에 접근, 조작하는 JavaScript 객체
-                        // document.getElementByID : 주어진 ID 를 가진 요소 반환
-
-                        // 각 마커 데이터 항목을 순회
-                        markersData.forEach(function(markerData, index) {
-                            var lat = parseFloat(markerData.latitude);  // 위도
-                            var lng = parseFloat(markerData.longitude); // 경도
-                            var name = markerData.name; // 마커 이름
-                        
-                            // 마커를 생성하고 지도에 추가
-                            var marker = L.marker([lat, lng]).addTo(map);
-                            marker.bindPopup(name); // 마커에 팝업으로 이름을 바인딩
-                            markers[name] = marker; // 마커를 markers 객체에 저장
-
-                            // 각 마커에 대한 체크리스트 항목 생성
-                            // document.createElement() : 주어진 태그 이름을 가진 새로운 요소 생성
-                            var listItem = document.createElement('li');    
-                            var checkbox = document.createElement('input');
-                            checkbox.type = 'checkbox';
-                            checkbox.id = 'marker_' + index;
-                            checkbox.value = name;
-                            var label = document.createElement('label');
-                            label.htmlFor = 'marker_' + index;
-                            label.appendChild(document.createTextNode(name));
-
-                            listItem.appendChild(checkbox); // 체크박스를 리스트 항목에 추가
-                            listItem.appendChild(label);    // 라벨을 리스트 항목에 추가
-                            checklist.appendChild(listItem);    // 리스트 항목을 체크리스트에 추가
-
-                            // 체크박스 변경 이벤트 리스너
-                            checkbox.addEventListener('change', function(e) {   // (이벤트 유형, 실행할 함수)
-                                updateSelectedMarkers(e.target.checked, name, marker);  // e.target.checked : 체크박스 상태
-                            });
-
-                            // 마커 클릭 이벤트 리스너
-                            marker.on('click', function(e) {
-                                var checkbox = document.getElementById('marker_' + index);
-                                checkbox.checked = !checkbox.checked;   // 체크 상태를 토글
-                                updateSelectedMarkers(checkbox.checked, name, marker);  // + 체크박스 상태
-                            });
-                        });
-                    }
-                });
-            })
-            .catch(error => console.error('Error fetching the CSV file:', error));  // error 메시지
-
-        // 선택된 마커 목록을 업데이트하는 함수
-        function updateSelectedMarkers(checked, name, marker) {
-            if (checked) {
-                // 마커를 selectedMarkers 배열에 추가
-                selectedMarkers.push(name);
-                // 아이콘 이미지 변경
-                marker.setIcon(L.icon({
-                    iconUrl: '/static/data/icon/yellow-dot.png',    // 아이콘 URL
-                    iconSize: [32, 32], // 아이콘 크기
-                    iconAnchor: [16, 32],   // 아이콘 앵커 지점
-                    popupAnchor: [0, -32]   // 팝업 앵커 지점
-                }));
-            } else {
-                // 마커를 selectedMarkers 배열에서 제거하고 아이콘을 기본으로 재설정
-                var index = selectedMarkers.indexOf(name);
-                if (index > -1) {   // selectedMarkers 배열에 요소 존재하면
-                    selectedMarkers.splice(index, 1);   // .splice() : selectedMarkers 배열의 index 위치에 있는 요초를 1개 제거
-                }점
-                marker.setIcon(new L.Icon.Default());   // 기본 아이콘으로 변경
-            }
-            // 선택된 마커의 목록을 ','구분자로 -> '선택된 마커:' 화면에 업데이트
-            document.getElementById('markerNames').innerText = selectedMarkers.join(', ');
-        }
-
-        // 다운로드 버튼1 클릭 이벤트 리스너 (개별 파일 다운로드)
-        document.getElementById('downloadButton1').addEventListener('click', function() {
-            // 선택된 마커들의 이름을 순회하며 각각의 파일을 다운로드
-            selectedMarkers.forEach(function(markerName) {
-                var link = document.createElement('a'); // 다운로드 트리거
-                link.href = '/static/data/files/' + markerName + '.csv';    //다운로드 경로
-                link.download = markerName + '.csv';    // 다운로드 이름
-                // 링크를 클릭하여 파일을 다운로드
-                link.click();   // 실제 클릭한 것처럼 동작
-            });
-        });
-
-        // 다운로드 버튼2 클릭 이벤트 리스너 (하나의 파일로 다운로드)
-        document.getElementById('downloadButton2').addEventListener('click', function() {
-            // 모든 선택된 마커 파일을 하나의 CSV 파일로 합침
-            var allData = [];
-            var fetchPromises = selectedMarkers.map(function(markerName) {  // 배열의 모든 요소에 대해 주어진 함수 호출 -> 새로운 결과
-                return fetch('/static/data/files/' + markerName + '.csv')   // fetch 요청
-                    .then(response => response.text())  // 응답을 텍스트로
-                    .then(data => {
-                        // 각 파일의 데이터를 파싱하여 allData 배열에 추가
-                        var parsedData = Papa.parse(data, { header: true }).data;
-                        allData = allData.concat(parsedData);   // 결합
-                    });
-            });
-
-            // 모든 파일이 fetch된 후 하나의 CSV로 합침
-            Promise.all(fetchPromises).then(() => {
-                var csv = Papa.unparse(allData);    // 배열을 하나의 문자열로
-                var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });    // bolb 객체로 / Binary Large Objsct : 원시데이터 표현하는 객체
-                var link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);  // 다운로드 경로
-                link.download = 'combined_markers.csv'; // 다운로드 이름
-                link.click();   // 실제 클릭한것처럼 다운로드
-            });
-        });
-
-        // 다운로드 버튼3 클릭 이벤트 리스너 (ZIP 파일로 다운로드)
-        document.getElementById('downloadButton3').addEventListener('click', function() {
-            var zip = new JSZip();
-            var folder = zip.folder("markers"); // zip 파일 내에 해당 폴더 생성
-
-            // 선택된 마커들의 파일을 ZIP에 추가
-            var fetchPromises = selectedMarkers.map(function(markerName) {  // 배열의 모든 요소에 대해 주어진 함수 호출 -> 새로운 결과
-                return fetch('/static/data/files/' + markerName + '.csv')   // fetch 요청
-                    .then(response => response.blob())  // 응답을 bolb로
-                    .then(blob => {
-                        // 각 파일을 ZIP 폴더에 추가
-                        folder.file(markerName + '.csv', blob);
-                    });
-            });
-
-            // 모든 파일이 fetch된 후 ZIP 파일을 생성하고 다운로드
-            Promise.all(fetchPromises).then(() => {
-                zip.generateAsync({ type: 'blob' }).then(function(content) {    // zip 파일 -> bolb 객체로
-                    saveAs(content, 'result.zip');  // zip 다운로드
-                });
-            });
-        });
-    </script>
+    <script src="/static/js/map-tmy_map.js"></script>
+    <script src="/static/js/map-tmy_checklist.js"></script>
+    <script src="/static/js/map-tmy_download.js"></script>
+    <script src="/static/js/map-tmy_main.js"></script>
 </body>
 </html>

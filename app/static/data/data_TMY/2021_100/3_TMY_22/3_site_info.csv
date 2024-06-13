@@ -1,11 +1,11 @@
-Province,Name,Code,Lat,Lon
+Province,Name,Code,latitude,longitude
 Gangwon,Sokcho,90,38.3,128.6
 Gangwon,Cheorwon,95,38.1,127.3
 Gyeonggi,Paju,99,37.9,126.8
 Gyeongbuk,Ulleungdo,115,37.5,130.9
 Gyeongnam,Tongyeong,162,34.8,128.4
 Jeonbuk,Gochang,172,35.3,126.6
-Jeonnam,Suncheon,174,35.0,127.4
+Jeonnam,Suncheon,174,35,127.4
 Jeonnam,Jindo,175,34.5,126.3
 Chungnam,Hongseong,177,36.7,126.7
 Jeju,Seongsan,188,33.4,126.9

@@ -1,4 +1,4 @@
-index,longitude (º),latitude (º),address,지상,elev (m)
+code,longitude,latitude,address,지상,elev (m)
 1,128.4066,38.535,강원도 고성군 현내면 배봉리,1,95.6
 6,127.5065,38.335,강원도 철원군 근동면 광삼리,1,287.9
 11,128.2066,38.335,강원도 인제군 서화면 가전리,1,444.9
