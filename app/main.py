@@ -25,3 +25,8 @@ async def korea_map(request: Request):
 @app.get("/leaflet", response_class=HTMLResponse)
 async def leaflet_map(request: Request):
     return templates.TemplateResponse("leaflet.html", {"request": request})
+
+# map-tmy 엔드 포인트
+@app.get("/map-tmy", response_class=HTMLResponse)
+async def map_tmy(request: Request):
+    return templates.TemplateResponse("map-tmy.html", {"request": request})

@@ -110,7 +110,7 @@
 
     <script>
         // 지도 초기화 및 특정 위치와 줌 레벨 설정
-        var map = L.map('map').setView([35.9, 128.8], 7);
+        var map = L.map('map').setView([36.1960, 127.4000], 7);
 
         // 지도에 타일 레이어 추가 (오프라인 사용을 위해 로컬 저장소에서 불러옴)
         // L.tileLayer('/static/data/mapTiles/{z}/{x}/{y}.png', {
@@ -118,7 +118,7 @@
         L.tileLayer('http://localhost:8080/tile/{z}/{x}/{y}.png', {
             minZoom: 7, // 최소 줌 레벨
             maxZoom: 11, // 최대 줌 레벨
-            attribution: '&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a> | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
         }).addTo(map);
 
         // 지도 이동 범위를 제한하는 최대 경계 설정
