@@ -47,3 +47,15 @@ docker run -v $(pwd)/app/static/data/maptile/south-korea-latest.osm.pbf:/data/re
 맵타일: docker start zen_euler
 나머지: docker-compose up
 docker-compose down --rmi all -v
+
+회사 기준 
+우분투: docker start ubuntu22
+맵타일: docker start determined_hoover
+나머지: docker-compose up
+docker-compose down --rmi all -v
+
+다운로드 : 
+1번째 : 25초
+2번째 : 47
+3번째 : 3분 5초
+전체 : 3분 28초 소요

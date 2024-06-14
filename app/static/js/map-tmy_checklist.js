@@ -1,3 +1,4 @@
+// 하위 항목 리스트를 토글하는 함수
 function toggleChildList(id) {
     var childList = document.getElementById(id);
     if (childList.style.display === 'none' || childList.style.display === '') {
@@ -7,6 +8,7 @@ function toggleChildList(id) {
     }
 }
 
+// 선택된 마커 목록을 업데이트하고, 마커의 아이콘을 변경하는 함수
 function updateSelectedMarkers(checked, fullCode, marker) {
     if (checked) {
         if (!selectedMarkers.includes(fullCode)) {
@@ -23,11 +25,12 @@ function updateSelectedMarkers(checked, fullCode, marker) {
         if (index > -1) {
             selectedMarkers.splice(index, 1);
         }
-        marker.setIcon(marker.options.icon); // 원래 아이콘으로 복원
+        marker.setIcon(marker.options.defaultIcon);
     }
     document.getElementById('markerNames').innerText = selectedMarkers.join(', ');
 }
 
+// 상위 체크박스의 상태를 업데이트하는 함수
 function updateParentCheckboxes() {
     var parentCheckboxes = document.querySelectorAll('.parent-checkbox');
     parentCheckboxes.forEach(function(parentCheckbox) {
@@ -51,31 +54,54 @@ function updateParentCheckboxes() {
     });
 }
 
+// 모든 상위 체크박스에 이벤트 리스너를 추가
 document.querySelectorAll('.parent-checkbox').forEach(function(parentCheckbox) {
     parentCheckbox.addEventListener('change', function() {
         var childList = parentCheckbox.nextElementSibling.nextElementSibling;
         if (childList) {
             var childCheckboxes = childList.querySelectorAll('input[type="checkbox"]');
             if (parentCheckbox.checked) {
-                // 상위 항목이 체크되면 하위 항목들도 모두 체크
                 childCheckboxes.forEach(function(childCheckbox) {
                     childCheckbox.checked = true;
                     childCheckbox.dispatchEvent(new Event('change'));
                 });
             } else {
-                // 상위 항목이 체크 해제되면 하위 항목들도 모두 체크 해제
                 childCheckboxes.forEach(function(childCheckbox) {
                     childCheckbox.checked = false;
                     childCheckbox.dispatchEvent(new Event('change'));
                 });
             }
         }
+        updateParentCheckboxes();
     });
 });
 
+// 1_TMY_78 및 3_TMY_22의 상위 체크박스에 대한 이벤트 리스너 추가
+document.querySelectorAll('#1_TMY_78, #3_TMY_22').forEach(function(subCheckbox) {
+    subCheckbox.addEventListener('change', function() {
+        var childList = subCheckbox.nextElementSibling.nextElementSibling;
+        if (childList) {
+            var childCheckboxes = childList.querySelectorAll('input[type="checkbox"]');
+            if (subCheckbox.checked) {
+                childCheckboxes.forEach(function(childCheckbox) {
+                    childCheckbox.checked = true;
+                    childCheckbox.dispatchEvent(new Event('change'));
+                });
+            } else {
+                childCheckboxes.forEach(function(childCheckbox) {
+                    childCheckbox.checked = false;
+                    childCheckbox.dispatchEvent(new Event('change'));
+                });
+            }
+        }
+        updateParentCheckboxes();
+    });
+});
+
+// 모든 토글 버튼에 이벤트 리스너를 추가
 document.querySelectorAll('.toggle-button').forEach(function(toggleButton) {
     toggleButton.addEventListener('click', function() {
-        var childList = toggleButton.nextElementSibling.nextElementSibling;
+        var childList = toggleButton.parentElement.querySelector('.child-list');
         if (childList.style.display === 'none' || childList.style.display === '') {
             childList.style.display = 'block';
             toggleButton.innerHTML = '▼';
@@ -85,3 +111,11 @@ document.querySelectorAll('.toggle-button').forEach(function(toggleButton) {
         }
     });
 });
+
+// 초기화 함수
+function initializeCheckboxes() {
+    updateParentCheckboxes(); // 상위 체크박스 상태 업데이트
+}
+
+// 초기화 함수 호출
+initializeCheckboxes();
