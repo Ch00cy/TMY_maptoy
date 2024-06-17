@@ -16,6 +16,7 @@ function addMarkers(folder, subfolder, siteFile) {
                 header: true,   // 첫 번째 행을 헤더로 사용 -> 데이터를 객체 배열
                 complete: function(results) {
                     var markersData = results.data; // 파싱된 데이터 배열
+                    print(markersData)
 
                     // 2021_100 폴더에 대한 예외 처리
                     if (folder === '2022_200') {
