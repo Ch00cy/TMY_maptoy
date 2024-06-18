@@ -30,7 +30,7 @@ C.	우분투 백그라운드에서 실행
 2.	Osm tile map
 A.	Osm.pdf 데이터 준비
 B.	docker volume create osm-data
-C.	docker run -v C:\UXF\tmy_toy\app\static\data\maptile\south-korea-latest.osm.pbf:/data/region.osm.pbf  -v osm-data:/data/database/  overv/openstreetmap-tile-server  import
+C.	docker run  -v C:\UXF\tmy_toy\app\static\data\maptile\south-korea-latest.osm.pbf:/data/region.osm.pbf  -v osm-data:/data/database/  overv/openstreetmap-tile-server  import
 D.	docker run -p 8080:80 -v osm-data:/data/database -d overv/openstreetmap-tile-server run
 3.	docker-compose 실행
 A.	docker-compose up
@@ -41,8 +41,6 @@ docker volume rm osm-data
 
 docker volume create osm-data
 docker run -v $(pwd)/app/static/data/maptile/south-korea-latest.osm.pbf:/data/region.osm.pbf -v osm-data:/data/database/ overv/openstreetmap-tile-server import
-
-docker run -v $(pwd)/app/static/data/maptile/asia-latest.osm.pbf:/data/region.osm.pbf -v osm-big-data:/data/database/ overv/openstreetmap-tile-server import
 
 컴 기준 
 우분투: docker start friendly_rosalind
