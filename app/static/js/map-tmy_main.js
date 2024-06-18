@@ -18,7 +18,60 @@ function addMarkers(folder, subfolder, siteFile) {
                     var markersData = results.data; // 파싱된 데이터 배열
 
                     // 2021_100 폴더에 대한 예외 처리
-                    if (folder === '2021_100') {
+                    if (folder === '2022_200') {
+                        // 2021_100 외의 폴더에 대한 처리
+                        var checklist = document.getElementById(folder + '_list');
+
+                        markersData.forEach(function(markerData, index) {
+                            var lat = parseFloat(markerData.latitude);  // 위도
+                            var lng = parseFloat(markerData.longitude); // 경도
+                            var code = markerData.code || markerData.Code || markerData['Marker Code']; 
+                            var fullCode = folder + '+' + code; // 마커 이름 출력할 때 사용 , 데이터 이름 구분짓기 위해
+
+                            // 유효하지 않은 데이터 -> 건너뜀
+                            if (!lat || !lng || !code) {
+                                console.error('Invalid data: ', markerData);
+                                return;
+                            }
+
+                            // 마커 생성 -> 지도 추가
+                            var marker = L.marker([lat, lng], { 
+                                icon: icons[folder],    // 폴더 안의 아이콘 사용
+                                defaultIcon: icons[folder] // 기본 아이콘 저장
+                            }).addTo(map);
+                            markers[fullCode] = marker; // 마커를 markers 객체에 저장
+
+                            // 체크리스트 항목 생성
+                            var listItem = document.createElement('li');
+                            var checkbox = document.createElement('input');
+                            checkbox.type = 'checkbox';
+                            checkbox.id = fullCode;
+                            checkbox.value = code;
+                            checkbox.className = 'marker-checkbox';
+                            var label = document.createElement('label');
+                            label.htmlFor = fullCode;
+                            label.appendChild(document.createTextNode(code));
+
+                            listItem.appendChild(checkbox);
+                            listItem.appendChild(label);
+                            checklist.appendChild(listItem);
+
+                            // 체그박스 상태 변경 시 마커의 색상 업데이트
+                            checkbox.addEventListener('change', function(e) {
+                                updateSelectedMarkers(e.target.checked, fullCode, marker);
+                                updateParentCheckboxes();
+                            });
+
+                            // 마커 클릭 시 체크박스 상태 변경
+                            marker.on('click', function() {
+                                var checkbox = document.getElementById(fullCode);
+                                checkbox.checked = !checkbox.checked;
+                                updateSelectedMarkers(checkbox.checked, fullCode, marker);
+                                updateParentCheckboxes();
+                            });
+                        });
+
+                    } else {
                         // 상위 체크리스트 항목 : 2021_100 리스트 요소 가져옴
                         var parentChecklist = document.getElementById(folder + '_list');
 
@@ -104,58 +157,6 @@ function addMarkers(folder, subfolder, siteFile) {
                                 updateParentCheckboxes();
                             });
                         });
-                    } else {
-                        // 2021_100 외의 폴더에 대한 처리
-                        var checklist = document.getElementById(folder + '_list');
-
-                        markersData.forEach(function(markerData, index) {
-                            var lat = parseFloat(markerData.latitude);  // 위도
-                            var lng = parseFloat(markerData.longitude); // 경도
-                            var code = markerData.code || markerData.Code || markerData['Marker Code']; 
-                            var fullCode = folder + '+' + code; // 마커 이름 출력할 때 사용 , 데이터 이름 구분짓기 위해
-
-                            // 유효하지 않은 데이터 -> 건너뜀
-                            if (!lat || !lng || !code) {
-                                console.error('Invalid data: ', markerData);
-                                return;
-                            }
-
-                            // 마커 생성 -> 지도 추가
-                            var marker = L.marker([lat, lng], { 
-                                icon: icons[folder],    // 폴더 안의 아이콘 사용
-                                defaultIcon: icons[folder] // 기본 아이콘 저장
-                            }).addTo(map);
-                            markers[fullCode] = marker; // 마커를 markers 객체에 저장
-
-                            // 체크리스트 항목 생성
-                            var listItem = document.createElement('li');
-                            var checkbox = document.createElement('input');
-                            checkbox.type = 'checkbox';
-                            checkbox.id = fullCode;
-                            checkbox.value = code;
-                            checkbox.className = 'marker-checkbox';
-                            var label = document.createElement('label');
-                            label.htmlFor = fullCode;
-                            label.appendChild(document.createTextNode(code));
-
-                            listItem.appendChild(checkbox);
-                            listItem.appendChild(label);
-                            checklist.appendChild(listItem);
-
-                            // 체그박스 상태 변경 시 마커의 색상 업데이트
-                            checkbox.addEventListener('change', function(e) {
-                                updateSelectedMarkers(e.target.checked, fullCode, marker);
-                                updateParentCheckboxes();
-                            });
-
-                            // 마커 클릭 시 체크박스 상태 변경
-                            marker.on('click', function() {
-                                var checkbox = document.getElementById(fullCode);
-                                checkbox.checked = !checkbox.checked;
-                                updateSelectedMarkers(checkbox.checked, fullCode, marker);
-                                updateParentCheckboxes();
-                            });
-                        });
                     }
                 }
             });
@@ -167,4 +168,6 @@ function addMarkers(folder, subfolder, siteFile) {
 addMarkers('2021_100', '1_TMY_78', '/static/data/data_TMY/2021_100/1_TMY_78/1_site_info.csv');
 addMarkers('2021_100', '3_TMY_22', '/static/data/data_TMY/2021_100/3_TMY_22/3_site_info.csv');
 addMarkers('2022_200', '', '/static/data/data_TMY/2022_200/site_info.csv');
-addMarkers('2023_700', '', '/static/data/data_TMY/2023_700/site_info.csv');
+addMarkers('2023_700', '1_TMY_measure_6', '/static/data/data_TMY/2023_700/1_TMY_measure_6/site_info.csv');
+addMarkers('2023_700', '2_TMY_measure_48', '/static/data/data_TMY/2023_700/2_TMY_measure_48/site_info.csv');
+addMarkers('2023_700', '3_TMY_model_78', '/static/data/data_TMY/2023_700/3_TMY_model_78/site_info.csv');
