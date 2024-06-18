@@ -16,21 +16,17 @@ var selectedMarkers = [];
 
 var icons = {
     '2021_100': L.icon({
-        iconUrl: '/static/data/icon/green-dot.png',
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -32]
+        iconUrl: '/static/data/icon/circle-blue.png',
+        iconSize: [12, 12]
     }),
     '2022_200': L.icon({
-        iconUrl: '/static/data/icon/pink-dot.png',
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -32]
+        iconUrl: '/static/data/icon/circle-green.png',
+        iconSize: [12, 12]
     }),
     '2023_700': L.icon({
-        iconUrl: '/static/data/icon/blue-dot.png',
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -32]
+        iconUrl: '/static/data/icon/circle-pink.png',
+        iconSize: [12, 12]
     })
+    
 };
+

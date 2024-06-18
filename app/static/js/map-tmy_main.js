@@ -1,3 +1,63 @@
+var icon_size = 10;
+
+var icons = {
+    '2021_100': L.icon({
+        iconUrl: '/static/data/icon/circle-blue.png',
+        iconSize: [icon_size, icon_size]
+    }),
+    '2022_200': L.icon({
+        iconUrl: '/static/data/icon/circle-red.png',
+        iconSize: [icon_size, icon_size]
+    }),
+    '2023_700': L.icon({
+        iconUrl: '/static/data/icon/circle-pink.png',
+        iconSize: [icon_size, icon_size]
+    })
+    
+};
+
+map.on('zoomend', function() {
+    var currentZoom = map.getZoom();
+    var newSize;
+
+    switch (currentZoom){
+        case 7:
+            newSize = [10, 10];
+            break;
+        case 8:
+            newSize = [14, 14];
+            break;
+        case 9:
+            newSize = [18, 18];
+            break;
+        case 10:
+            newSize = [22, 22];
+            break;
+        case 11:
+            newSize = [26, 26];
+            break;
+    }
+
+    
+    for (var key in markers) {
+        if (markers.hasOwnProperty(key)) {
+            var marker = markers[key];
+            var icon = marker.options.icon;
+            icon.options.iconSize = newSize;
+            marker.setIcon(icon);
+        }
+    }
+});
+
+// GeoJSON 파일 로드
+var geojsonData;
+fetch('app/static/data/do/Do.geojson')
+    .then(response => response.json())
+    .then(data => {
+        geojsonData = data;
+    })
+    .catch(error => console.error('Error loading GeoJSON:', error));
+
 // 지도에 마커를 추가하는 함수
 // 폴더, 하위폴더, site_file.csv 파일 -> 마커 데이터 -> 지도에 추가 -> 체크리스트
 function addMarkers(folder, subfolder, siteFile) {   
@@ -42,19 +102,23 @@ function addMarkers(folder, subfolder, siteFile) {
                             markers[fullCode] = marker; // 마커를 markers 객체에 저장
 
                             // 체크리스트 항목 생성
-                            var listItem = document.createElement('li');
-                            var checkbox = document.createElement('input');
-                            checkbox.type = 'checkbox';
-                            checkbox.id = fullCode;
-                            checkbox.value = code;
-                            checkbox.className = 'marker-checkbox';
-                            var label = document.createElement('label');
-                            label.htmlFor = fullCode;
-                            label.appendChild(document.createTextNode(code));
+                            var listItem = document.createElement('li');    // 새로운 리스트 항목 (li) 요소 생성
+                            // 체크박스 생성
+                            var checkbox = document.createElement('input'); // 새로운 입력 (input) 요소 생성
+                            checkbox.type = 'checkbox'; // 입력 요소 타입 설정 -> 체크박스 만듬
+                            checkbox.id = fullCode; // 체크박스 ID
+                            checkbox.value = code;  // 체크박스 값
+                            checkbox.className = 'marker-checkbox'; // 체크박스 클래스 이름
+                            // 라벨 생성
+                            var label = document.createElement('label');    // 새로운 라벨 (label) 요소 생성
+                            label.htmlFor = fullCode;   // 라벨 for 속성 : 체크박스 id와 동일 -> 라벨 클릭 시 체크박스 선택됨
+                            label.appendChild(document.createTextNode(code));   // 라벨 요소에 텍스트 노드 추가 <- 마커 code
 
-                            listItem.appendChild(checkbox);
-                            listItem.appendChild(label);
-                            checklist.appendChild(listItem);
+                            // 리스트 항목에 체그박스와 라벨 추가
+                            listItem.appendChild(checkbox); // 리스트 항목 (li) 요소에 체크박스 (input) 요소를 자식 요소로 추가
+                            listItem.appendChild(label);    // 리스트 항목 (li) 요소에 라벨 (label) 요소를 자식 요소로 추가
+                            // 최종적 : 체크리스트 <- 리스트 항목 추가
+                            checklist.appendChild(listItem);    // 기존 체크리스트 checklist 에 새로만든 리스트항목 (li) 추가
 
                             // 체그박스 상태 변경 시 마커의 색상 업데이트
                             checkbox.addEventListener('change', function(e) {

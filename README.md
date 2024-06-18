@@ -45,13 +45,15 @@ docker run -v $(pwd)/app/static/data/maptile/south-korea-latest.osm.pbf:/data/re
 컴 기준 
 우분투: docker start friendly_rosalind
 맵타일: docker start zen_euler
-나머지: docker-compose up
+나머지: docker start 
+docker-compose up
 docker-compose down --rmi all -v
 
 회사 기준 
 우분투: docker start ubuntu22
 맵타일: docker start determined_hoover
-나머지: docker-compose up
+나머지: docker start 
+docker-compose up
 docker-compose down --rmi all -v
 
 다운로드 : 

@@ -9,6 +9,7 @@ app/node_modules/
 ignore/
 <<<<<<< HEAD
 app/static/data/maptile/*
+app/static/data/do/*
 
 # 특정 파일 무시 설정
 south-korea-latest.osm.pbf

@@ -1,0 +1,7 @@
+app/static/data/data_TMY/*
+*.log
+*.tmp
+*.bak
+node_modules
+.git
+.env
