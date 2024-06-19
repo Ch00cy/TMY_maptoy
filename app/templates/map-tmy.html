@@ -39,6 +39,115 @@
                 <label for="2023_700">2023_700</label>
                 <ul id="2023_700_list" class="child-list"></ul>
             </li>
+            <li>
+                <span class="toggle-button" onclick="toggleChildList('administrative_list')">▶</span>
+                <input type="checkbox" id="administrative" class="parent-checkbox">
+                <label for="administrative">행정구역</label>
+                <ul id="administrative_list" class="child-list">
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('seoul_list')">▶</span>
+                        <input type="checkbox" id="seoul" class="parent-checkbox">
+                        <label for="seoul">서울특별시</label>
+                        <ul id="seoul_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('busan_list')">▶</span>
+                        <input type="checkbox" id="busan" class="parent-checkbox">
+                        <label for="busan">부산광역시</label>
+                        <ul id="busan_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('daegu_list')">▶</span>
+                        <input type="checkbox" id="daegu" class="parent-checkbox">
+                        <label for="daegu">대구광역시</label>
+                        <ul id="daegu_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('incheon_list')">▶</span>
+                        <input type="checkbox" id="incheon" class="parent-checkbox">
+                        <label for="incheon">인천광역시</label>
+                        <ul id="incheon_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('gwangju_list')">▶</span>
+                        <input type="checkbox" id="gwangju" class="parent-checkbox">
+                        <label for="gwangju">광주광역시</label>
+                        <ul id="gwangju_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('daejeon_list')">▶</span>
+                        <input type="checkbox" id="daejeon" class="parent-checkbox">
+                        <label for="daejeon">대전광역시</label>
+                        <ul id="daejeon_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('ulsan_list')">▶</span>
+                        <input type="checkbox" id="ulsan" class="parent-checkbox">
+                        <label for="ulsan">울산광역시</label>
+                        <ul id="ulsan_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('sejong_list')">▶</span>
+                        <input type="checkbox" id="sejong" class="parent-checkbox">
+                        <label for="sejong">세종특별자치시</label>
+                        <ul id="sejong_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('gyeonggi_list')">▶</span>
+                        <input type="checkbox" id="gyeonggi" class="parent-checkbox">
+                        <label for="gyeonggi">경기도</label>
+                        <ul id="gyeonggi_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('gangwon_list')">▶</span>
+                        <input type="checkbox" id="gangwon" class="parent-checkbox">
+                        <label for="gangwon">강원특별자치도</label>
+                        <ul id="gangwon_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('chungbuk_list')">▶</span>
+                        <input type="checkbox" id="chungbuk" class="parent-checkbox">
+                        <label for="chungbuk">충청북도</label>
+                        <ul id="chungbuk_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('chungnam_list')">▶</span>
+                        <input type="checkbox" id="chungnam" class="parent-checkbox">
+                        <label for="chungnam">충청남도</label>
+                        <ul id="chungnam_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('jeonbuk_list')">▶</span>
+                        <input type="checkbox" id="jeonbuk" class="parent-checkbox">
+                        <label for="jeonbuk">전라북도</label>
+                        <ul id="jeonbuk_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('jeonnam_list')">▶</span>
+                        <input type="checkbox" id="jeonnam" class="parent-checkbox">
+                        <label for="jeonnam">전라남도</label>
+                        <ul id="jeonnam_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('gyeongbuk_list')">▶</span>
+                        <input type="checkbox" id="gyeongbuk" class="parent-checkbox">
+                        <label for="gyeongbuk">경상북도</label>
+                        <ul id="gyeongbuk_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('gyeongnam_list')">▶</span>
+                        <input type="checkbox" id="gyeongnam" class="parent-checkbox">
+                        <label for="gyeongnam">경상남도</label>
+                        <ul id="gyeongnam_list" class="child-list"></ul>
+                    </li>
+                    <li>
+                        <span class="toggle-button" onclick="toggleChildList('jeju_list')">▶</span>
+                        <input type="checkbox" id="jeju" class="parent-checkbox">
+                        <label for="jeju">제주특별자치도</label>
+                        <ul id="jeju_list" class="child-list"></ul>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
     <script src="/static/js/leaflet.js"></script>
@@ -46,7 +155,6 @@
     <script src="/static/js/jszip.min.js"></script>
     <script src="/static/js/jszip-utils.min.js"></script>
     <script src="/static/js/FileSaver.min.js"></script>
-    <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
     <script src="/static/js/map-tmy_map.js"></script>
     <script src="/static/js/map-tmy_checklist.js"></script>
     <script src="/static/js/map-tmy_download.js"></script>

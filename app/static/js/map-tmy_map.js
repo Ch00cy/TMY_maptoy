@@ -5,6 +5,7 @@ L.tileLayer('http://localhost:8080/tile/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
 }).addTo(map);
 
+
 var maxBounds = L.latLngBounds(
     L.latLng(33.0, 125.0),
     L.latLng(38.5, 132.0)
@@ -14,19 +15,51 @@ map.setMaxBounds(maxBounds);
 var markers = {};
 var selectedMarkers = [];
 
+var icon_size = 8; // 마커 아이콘 크기
+
 var icons = {
     '2021_100': L.icon({
         iconUrl: '/static/data/icon/circle-blue.png',
-        iconSize: [12, 12]
+        iconSize: [icon_size, icon_size]
     }),
     '2022_200': L.icon({
-        iconUrl: '/static/data/icon/circle-green.png',
-        iconSize: [12, 12]
+        iconUrl: '/static/data/icon/circle-red.png',
+        iconSize: [icon_size, icon_size]
     }),
     '2023_700': L.icon({
         iconUrl: '/static/data/icon/circle-pink.png',
-        iconSize: [12, 12]
+        iconSize: [icon_size, icon_size]
     })
-    
 };
 
+map.on('zoomend', function() {
+    var currentZoom = map.getZoom();
+    var newSize;
+
+    switch (currentZoom) {
+        case 7:
+            newSize = [8, 8];
+            break;
+        case 8:
+            newSize = [12, 12];
+            break;
+        case 9:
+            newSize = [18, 18];
+            break;
+        case 10:
+            newSize = [22, 22];
+            break;
+        case 11:
+            newSize = [28, 28];
+            break;
+    }
+
+    for (var key in markers) {
+        if (markers.hasOwnProperty(key)) {
+            var marker = markers[key];
+            var icon = marker.options.icon;
+            icon.options.iconSize = newSize;
+            marker.setIcon(icon);
+        }
+    }
+});

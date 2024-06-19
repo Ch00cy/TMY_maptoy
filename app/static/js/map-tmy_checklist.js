@@ -84,8 +84,8 @@ document.querySelectorAll('.parent-checkbox').forEach(function(parentCheckbox) {
     });
 });
 
-// 1_TMY_78 및 3_TMY_22의 상위 체크박스에 대한 이벤트 리스너 추가
-document.querySelectorAll('#1_TMY_78, #3_TMY_22').forEach(function(subCheckbox) {
+// 1_TMY_700 및 3_TMY_22의 상위 체크박스에 대한 이벤트 리스너 추가
+document.querySelectorAll('#1_TMY_78, #3_TMY_22, #1_TMY_measure_6, #2_TMY_measure_48, #3_TMY_model_78').forEach(function(subCheckbox) {
     subCheckbox.addEventListener('change', function() {
         // 체크박스의 다음 다음 요소 (하위 리스트)를 찾음
         var childList = subCheckbox.nextElementSibling.nextElementSibling;
