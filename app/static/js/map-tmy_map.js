@@ -5,6 +5,27 @@ L.tileLayer('http://localhost:8080/tile/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
 }).addTo(map);
 
+// // GeoJSON 파일을 불러와서 스타일링하고 팝업 추가
+// fetch('/static/data/do/Do.geojson')
+//     .then(response => response.json())
+//     .then(geojsonData => {
+//         L.geoJson(geojsonData, {
+//             style: function(feature) {
+//                 return {
+//                     color: '#ff7800',
+//                     weight: 2,
+//                     opacity: 1,
+//                     fillOpacity: 0.2
+//                 };
+//             },
+//             onEachFeature: function(feature, layer) {
+//                 if (feature.properties && feature.properties.name) {
+//                     layer.bindPopup(feature.properties.name);
+//                 }
+//             }
+//         }).addTo(map);
+//     })
+//     .catch(error => console.error('Error loading GeoJSON file:', error));
 
 var maxBounds = L.latLngBounds(
     L.latLng(33.0, 125.0),
