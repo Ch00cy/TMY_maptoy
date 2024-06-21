@@ -1,3 +1,16 @@
+// 클라이언트 측 : 파일 다운로드 + 다운로드 count 
+
+// 다운로드 카운트를 업데이트하는 함수
+function updateDownloadCount(markerName) {
+    // markerName : URL 인코딩하여 서버로 전송할 수 있게 변경
+    const encodedMarkerName = encodeURIComponent(markerName);  
+    // 해당 경로로 POST 요청 -> FastAPI 서버의 download_file() 호출 
+    // -> 1. 다운로드 count 2. 파일 반환
+    fetch(`/download/${encodedMarkerName}`, {   
+        method: 'POST'  // POST 요청
+    }).catch(error => console.error('다운로드 카운트 업데이트 중 오류 발생:', error));
+}
+
 // '다운로드 in zip' 버튼 클릭 이벤트 핸들러
 document.getElementById('downloadButton3').addEventListener('click', function() {
     var zip = new JSZip();  // JSZip 객체 생성 - ZIP 파일을 생성하는 라이브러리 사용
@@ -12,16 +25,22 @@ document.getElementById('downloadButton3').addEventListener('click', function() 
             [folder, subfolder, code] = parts;
             if (folder === "2023_700" && subfolder === "2_TMY_measure_48") {
                 // 예외 처리: 2023_700/2_TMY_measure_48의 경우
-                return fetchSpecialFiles(folder, subfolder, code, zip);
+                return fetchSpecialFiles(folder, subfolder, code, zip).then(() => {
+                    updateDownloadCount(fullCode);
+                });
             } else {
                 var filePath = `/static/data/data_TMY/${folder}/${subfolder}/data/${code}.csv`;
-                return fetchAndAddToFile(filePath, zip, folder, subfolder, code);
+                return fetchAndAddToFile(filePath, zip, folder, subfolder, code).then(() => {
+                    updateDownloadCount(fullCode);
+                });
             }
         } else {
             // 폴더, 코드로 구성된 경우
             [folder, code] = parts;
             var filePath = `/static/data/data_TMY/${folder}/data/${code}.csv`;
-            return fetchAndAddToFile(filePath, zip, folder, null, code);
+            return fetchAndAddToFile(filePath, zip, folder, null, code).then(() => {
+                updateDownloadCount(fullCode);
+            });
         }
     });
 
@@ -72,5 +91,5 @@ function fetchSpecialFiles(folder, subfolder, code, zip) {
             .catch(error => console.error('Error fetching special file:', error));
     });
 
-    return Promise.all(specialFetchPromises);
+    return Promise.all(specialFetchPromises);   //  모든 작업이 완료될 때 까지 기다림
 }
