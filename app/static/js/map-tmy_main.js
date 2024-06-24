@@ -20,6 +20,7 @@ var donames = {
 };
 
 // 지도에 마커를 추가하는 함수
+// ex) ('2021_100', '1_TMY_78', '/static/data/data_TMY/2021_100/1_TMY_78/1_site_info.csv')
 function addMarkers(folder, subfolder, siteFile) {
     fetch(siteFile)
         .then(response => {
@@ -28,7 +29,7 @@ function addMarkers(folder, subfolder, siteFile) {
             }
             return response.text();
         })
-        .then(data => {
+        .then(data => { // site_info.csv data
             Papa.parse(data, {
                 header: true,
                 complete: function(results) {

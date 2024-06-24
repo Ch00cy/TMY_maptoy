@@ -19,6 +19,8 @@ import urllib.parse
 
 # MYSQL DB 연결 URL (DB 사용자 이름, 비밀번호, 호스트, 포트, DB 이름)
 DATABASE_URL = 'mysql+pymysql://root:uxfac@localhost:3306/dbname' 
+# DATABASE_URL = 'mariadb+mariadbconnector://root:uxfac@localhost:3306/TMY'
+
 
 # SQLAlchemy 엔진 생성 (DB와 상호작용할 수 있는) -> DB 와 연결 => 객체
 engine = create_engine(DATABASE_URL)
@@ -52,6 +54,7 @@ def get_db():
     finally:
         db.close()
 
+# 엔드포인트 : 웹 애플리케이션에서 클라이언트가 특정 작업을 요청할 수 있는 URL
 # 루트 엔드포인트
 @app.get("/")   # 데코레이터
 async def read_root(request: Request):
@@ -84,6 +87,7 @@ async def download_file(marker_name: str, db: Session = Depends(get_db)):
     # marker_name = DownloadCount 찾기
     # 레코드 존재하면 : count 증가 + 마지막 다운로드 시간 업데이트
     # 레코드 존재 안하면 : 새로운 레코드 생성 + DB에 추가 (값은 1로 생성)
+    # 쿼리 query : 데이터 삭제, 삽입, 업데이트, 삭제 작업
     marker = db.query(DownloadCount).filter(DownloadCount.marker_name == marker_name).first()
     if marker:
         marker.download_count += 1

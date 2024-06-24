@@ -7,7 +7,7 @@ function updateDownloadCount(markerName) {
     // 해당 경로로 POST 요청 -> FastAPI 서버의 download_file() 호출 
     // -> 1. 다운로드 count 2. 파일 반환
     fetch(`/download/${encodedMarkerName}`, {   
-        method: 'POST'  // POST 요청
+        method: 'POST'  // POST 요청 (클라이언트가 서버에 데이터를 제출할 때 사용되는 HTTP 메서드)
     }).catch(error => console.error('다운로드 카운트 업데이트 중 오류 발생:', error));
 }
 
