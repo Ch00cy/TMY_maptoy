@@ -7,19 +7,19 @@ from sqlalchemy.ext.declarative import declarative_base
 # 모든 테이블 모델 클래스는 이 베이스 클래스를 상속받아야 함.
 Base = declarative_base()
 
-class DownloadCount(Base):
-    __tablename__ = 'download_count'
-    
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    marker_name = Column(String(255), nullable=False)
-    download_count = Column(Integer, default=0)
-    last_download = Column(TIMESTAMP, default=func.current_timestamp())
-    
 # class DownloadCount(Base):
-#     __tablename__ = 'maria_download_count'
+#     __tablename__ = 'download_count'
     
 #     id = Column(Integer, primary_key=True, autoincrement=True)
 #     marker_name = Column(String(255), nullable=False)
-#     download_count = Column(Integer, server_default="0")
-#     last_download = Column(TIMESTAMP, server_default=func.current_timestamp())
+#     download_count = Column(Integer, default=0)
+#     last_download = Column(TIMESTAMP, default=func.current_timestamp())
+    
+class DownloadCount(Base):
+    __tablename__ = 'maria_download_count'
+    
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    marker_name = Column(String(255), nullable=False)
+    download_count = Column(Integer, server_default="0")
+    last_download = Column(TIMESTAMP, server_default=func.current_timestamp())
 

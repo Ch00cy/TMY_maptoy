@@ -18,8 +18,8 @@ from models import DownloadCount, Base
 import urllib.parse
 
 # MYSQL DB 연결 URL (DB 사용자 이름, 비밀번호, 호스트, 포트, DB 이름)
-DATABASE_URL = 'mysql+pymysql://root:uxfac@localhost:3306/dbname' 
-# DATABASE_URL = 'mariadb+mariadbconnector://root:uxfac@localhost:3306/TMY'
+# DATABASE_URL = 'mysql+pymysql://root:uxfac@localhost:3306/dbname' 
+DATABASE_URL = 'mariadb+mariadbconnector://root:uxfac@localhost:3306/TMY'
 
 
 # SQLAlchemy 엔진 생성 (DB와 상호작용할 수 있는) -> DB 와 연결 => 객체
